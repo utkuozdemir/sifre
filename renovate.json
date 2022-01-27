@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "config:base",
+    ":automergeBranch",
+    ":automergeMinor",
+    ":automergeDigest"
+  ],
+  "postUpdateOptions": [
+    "gomodTidy"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "go"
+      ],
+      "groupName": "go packages"
+    },
+    {
+      "extends": [
+        ":automergeMajor"
+      ],
+      "matchPaths": [
+        ".github/workflows/**"
+      ],
+      "groupName": "github actions"
+    }
+  ]
+}
