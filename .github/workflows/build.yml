@@ -1,0 +1,67 @@
+---
+name: Lint, build & test
+on:
+  push:
+    branches:
+      - master
+      - renovate/**
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+      - "renovate.json"
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
+      - ".gitignore"
+      - "renovate.json"
+
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+      - name: Setup Go
+        uses: actions/setup-go@v2.1.5
+        with:
+          # todo: configure renovate
+          go-version: 1.17.5
+      - name: Install richgo
+        # todo: configure renovate
+        run: go install github.com/kyoh86/richgo@v0.3.10
+      - name: Ensure go.mod is already tidied
+        run: go mod tidy && git diff --no-patch --exit-code
+      - name: Install gofumpt
+        # todo: configure renovate
+        run: go install mvdan.cc/gofumpt@v0.2.1
+      - name: Ensure code is properly formatted using gofumpt
+        run: test -z "$(gofumpt -s -d .)"
+      - name: Run linters
+        uses: golangci/golangci-lint-action@v2.5.2
+        with:
+          # todo: configure renovate
+          version: v1.43.0
+          skip-go-installation: true
+          args: --timeout=3m0s
+      - name: Run tests
+        env:
+          RICHGO_FORCE_COLOR: "1"
+        run: richgo test -coverpkg=./... -coverprofile=profile.cov -covermode=count -timeout 20m -v ./...
+      - name: Send coverage
+        uses: shogo82148/actions-goveralls@v1.5.1
+        with:
+          path-to-profile: profile.cov
+          shallow: true
+      - name: Build with Goreleaser
+        if: ${{ always() }}
+        uses: goreleaser/goreleaser-action@v2.8.1
+        with:
+          # todo: configure renovate
+          version: v1.3.1
+          args: build --snapshot --rm-dist --single-target
