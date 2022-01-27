@@ -63,5 +63,5 @@ jobs:
         uses: goreleaser/goreleaser-action@v2.8.1
         with:
           # todo: configure renovate
-          version: v1.3.1
+          version: v1.4.1
           args: build --snapshot --rm-dist --single-target
