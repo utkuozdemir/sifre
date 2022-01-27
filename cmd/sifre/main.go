@@ -6,6 +6,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/utkuozdemir/sifre/internal/completioncmd"
+
 	"github.com/spf13/cobra"
 	"github.com/utkuozdemir/sifre/internal/argon2cmd"
 	"github.com/utkuozdemir/sifre/internal/bcryptcmd"
@@ -49,7 +51,11 @@ func buildRootCmd() (*cobra.Command, error) {
 		return nil, err
 	}
 
+	name := rootCmd.Name()
+	cmplcmd := completioncmd.Build(name)
+
 	rootCmd.AddCommand(a2cmd)
 	rootCmd.AddCommand(bccmd)
+	rootCmd.AddCommand(cmplcmd)
 	return rootCmd, nil
 }
