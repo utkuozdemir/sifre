@@ -11,9 +11,7 @@ type bcryptGenerator struct {
 	cost int
 }
 
-type bcryptComparer struct {
-	cost int
-}
+type bcryptComparer struct{}
 
 func NewBcryptGenerator(cost int) (Generator, error) {
 	if cost < bc.MinCost || cost > bc.MaxCost {
