@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
-      - name: Setup Go
+      - name: Install Go
         uses: actions/setup-go@v2.1.5
         with:
           # todo: configure renovate
@@ -35,11 +35,11 @@ jobs:
       - name: Install richgo
         # todo: configure renovate
         run: go install github.com/kyoh86/richgo@v0.3.10
-      - name: Ensure go.mod is already tidied
-        run: go mod tidy && git diff --no-patch --exit-code
       - name: Install gofumpt
         # todo: configure renovate
         run: go install mvdan.cc/gofumpt@v0.2.1
+      - name: Ensure go.mod is already tidied
+        run: go mod tidy && git diff --no-patch --exit-code
       - name: Ensure code is properly formatted using gofumpt
         run: test -z "$(gofumpt -s -d .)"
       - name: Run linters
