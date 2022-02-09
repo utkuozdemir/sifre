@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/spf13/cobra v1.3.0
 	github.com/stretchr/testify v1.7.0
-	golang.org/x/crypto v0.0.0-20220208233918-bba287dce954
+	golang.org/x/crypto v0.0.0-20220209155544-dad33157f4bf
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
 )
 
