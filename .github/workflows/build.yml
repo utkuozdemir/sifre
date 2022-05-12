@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.0.2
       - name: Install Go
-        uses: actions/setup-go@v3.0.0
+        uses: actions/setup-go@v3.1.0
         with:
           # todo: configure renovate
           go-version: 1.17.5
