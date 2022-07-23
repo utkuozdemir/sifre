@@ -2,12 +2,13 @@ package argon2cmd
 
 import (
 	"github.com/spf13/cobra"
+
 	"github.com/utkuozdemir/sifre/internal/comparecmd"
 	"github.com/utkuozdemir/sifre/internal/crypt"
 )
 
 func Build() (*cobra.Command, error) {
-	cmd := &cobra.Command{
+	cmd := &cobra.Command{ //nolint:exhaustruct
 		Use:   "argon2",
 		Short: "Argon2 related commands",
 	}
@@ -19,5 +20,6 @@ func Build() (*cobra.Command, error) {
 
 	cmd.AddCommand(buildGenerateCmd())
 	cmd.AddCommand(comparecmd.New("argon2", comparer))
+
 	return cmd, nil
 }

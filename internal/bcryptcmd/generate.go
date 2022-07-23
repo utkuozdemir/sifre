@@ -3,11 +3,10 @@ package bcryptcmd
 import (
 	"fmt"
 
+	"github.com/spf13/cobra"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/utkuozdemir/sifre/internal/crypt"
-
-	"github.com/spf13/cobra"
 )
 
 const (
@@ -15,7 +14,7 @@ const (
 )
 
 func buildGenerateCmd() *cobra.Command {
-	cmd := &cobra.Command{
+	cmd := &cobra.Command{ //nolint:exhaustruct
 		Use:          "generate",
 		Aliases:      []string{"g"},
 		Short:        "Generate bcrypt hash",
@@ -24,18 +23,19 @@ func buildGenerateCmd() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cost, _ := cmd.Flags().GetInt(flagCost)
 
-			bc, err := crypt.NewBcryptGenerator(cost)
+			bcryptGenerator, err := crypt.NewBcryptGenerator(cost)
 			if err != nil {
 				return err
 			}
 
 			password := args[0]
-			hashed, err := bc.Generate(password)
+			hashed, err := bcryptGenerator.Generate(password)
 			if err != nil {
 				return err
 			}
 
-			fmt.Println(hashed)
+			fmt.Println(hashed) //nolint:forbidigo
+
 			return nil
 		},
 	}

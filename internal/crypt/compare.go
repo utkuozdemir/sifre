@@ -1,8 +1,10 @@
 package crypt
 
-import "fmt"
+import (
+	"github.com/hashicorp/go-multierror"
+)
 
-func compareBidirectional(str1, str2 string, compareFunc func(plaintext, hashed string) (bool, error)) (bool, error) {
+func CompareBidirectional(str1, str2 string, compareFunc func(plaintext, hashed string) (bool, error)) (bool, error) {
 	result1, err1 := compareFunc(str1, str2)
 	if err1 == nil {
 		return result1, nil
@@ -14,7 +16,7 @@ func compareBidirectional(str1, str2 string, compareFunc func(plaintext, hashed 
 	}
 
 	if err1 != nil && err2 != nil {
-		return false, fmt.Errorf("%v, %v", err1, err2)
+		return false, multierror.Append(nil, err1, err2)
 	}
 
 	if err1 != nil {

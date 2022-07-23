@@ -8,7 +8,7 @@ import (
 )
 
 func buildCostCmd() *cobra.Command {
-	return &cobra.Command{
+	return &cobra.Command{ //nolint:exhaustruct
 		Use:          "cost",
 		Short:        "Return the cost of a bcrypt hash",
 		Args:         cobra.ExactArgs(1),
@@ -21,7 +21,8 @@ func buildCostCmd() *cobra.Command {
 				return err
 			}
 
-			fmt.Println(cost)
+			fmt.Println(cost) //nolint:forbidigo
+
 			return nil
 		},
 	}

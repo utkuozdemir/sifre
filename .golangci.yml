@@ -1,0 +1,22 @@
+# https://golangci-lint.run/usage/linters/
+linters:
+  enable-all: true
+  disable:
+    # deprecated:
+    - exhaustivestruct
+    - golint
+    - interfacer
+    - maligned
+    - scopelint
+    # TODO: enable and refactor:
+    - wrapcheck
+    - goerr113
+
+
+linters-settings:
+  gci:
+    local-prefixes: github.com/utkuozdemir/sifre
+  goimports:
+    local-prefixes: github.com/utkuozdemir/sifre
+  goconst:
+    ignore-tests: true

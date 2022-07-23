@@ -6,13 +6,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/utkuozdemir/sifre/internal/completioncmd"
-
 	"github.com/spf13/cobra"
+
 	"github.com/utkuozdemir/sifre/internal/argon2cmd"
 	"github.com/utkuozdemir/sifre/internal/bcryptcmd"
+	"github.com/utkuozdemir/sifre/internal/completioncmd"
 )
 
+//nolint:gochecknoglobals
 var (
 	// will be overridden by goreleaser: https://goreleaser.com/cookbooks/using-main.version
 	version = "dev"
@@ -22,9 +23,10 @@ var (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
+
 	rootCmd, err := buildRootCmd()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err) //nolint:forbidigo
 		os.Exit(1)
 	}
 
@@ -35,7 +37,7 @@ func main() {
 }
 
 func buildRootCmd() (*cobra.Command, error) {
-	rootCmd := &cobra.Command{
+	rootCmd := &cobra.Command{ //nolint:exhaustruct
 		Use:     "sifre",
 		Short:   "CLI tool for password related operations",
 		Version: fmt.Sprintf("%s (commit: %s) (build date: %s)", version, commit, date),
@@ -57,5 +59,6 @@ func buildRootCmd() (*cobra.Command, error) {
 	rootCmd.AddCommand(a2cmd)
 	rootCmd.AddCommand(bccmd)
 	rootCmd.AddCommand(cmplcmd)
+
 	return rootCmd, nil
 }

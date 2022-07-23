@@ -3,9 +3,9 @@ package argon2cmd
 import (
 	"fmt"
 
-	"github.com/utkuozdemir/sifre/internal/crypt"
-
 	"github.com/spf13/cobra"
+
+	"github.com/utkuozdemir/sifre/internal/crypt"
 )
 
 const (
@@ -17,8 +17,9 @@ const (
 	flagKeyLength  = "key-length"
 )
 
+//nolint:gomnd
 func buildGenerateCmd() *cobra.Command {
-	cmd := &cobra.Command{
+	cmd := &cobra.Command{ //nolint:exhaustruct
 		Use:          "generate",
 		Aliases:      []string{"g"},
 		Short:        "Generate argon2 hash",
@@ -38,7 +39,8 @@ func buildGenerateCmd() *cobra.Command {
 				return err
 			}
 
-			fmt.Println(hashed)
+			fmt.Println(hashed) //nolint:forbidigo
+
 			return nil
 		},
 	}
@@ -51,5 +53,6 @@ func buildGenerateCmd() *cobra.Command {
 	cmd.Flags().Uint32P(flagMemory, "m", 32*1024, "Memory cost")
 	cmd.Flags().Uint8(flagThreads, 4, "Threads")
 	cmd.Flags().Uint32P(flagKeyLength, "k", 32, "Key length")
+
 	return cmd
 }

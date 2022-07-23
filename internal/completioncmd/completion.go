@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var completionCmdlongDescFmt = `To load completions:
+const completionCmdlongDescFmt = `To load completions:
 
 Bash:
 
@@ -48,7 +48,7 @@ PowerShell:
 `
 
 func Build(name string) *cobra.Command {
-	cmd := cobra.Command{
+	cmd := cobra.Command{ //nolint:exhaustruct,exhaustruct
 		Use:                   "completion [bash|zsh|fish|powershell]",
 		Short:                 "Generate completion script",
 		Long:                  fmt.Sprintf(completionCmdlongDescFmt, name),
@@ -66,6 +66,7 @@ func Build(name string) *cobra.Command {
 			case "powershell":
 				return cmd.Root().GenPowerShellCompletionWithDesc(os.Stdout)
 			}
+
 			return nil
 		},
 	}

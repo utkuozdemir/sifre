@@ -7,8 +7,9 @@ import (
 	"syscall"
 
 	"github.com/spf13/cobra"
-	"github.com/utkuozdemir/sifre/internal/crypt"
 	"golang.org/x/term"
+
+	"github.com/utkuozdemir/sifre/internal/crypt"
 )
 
 const (
@@ -16,11 +17,11 @@ const (
 )
 
 func New(algorithmName string, comparer crypt.BidirectionalComparer) *cobra.Command {
-	cmd := &cobra.Command{
+	cmd := &cobra.Command{ //nolint:exhaustruct
 		Use:          "compare",
 		Aliases:      []string{"c"},
 		Short:        fmt.Sprintf("Compare password with %s hash", algorithmName),
-		Args:         cobra.MaximumNArgs(2),
+		Args:         cobra.MaximumNArgs(2), //nolint:gomnd
 		SilenceUsage: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			quiet, _ := cmd.Flags().GetBool(flagQuiet)
@@ -41,12 +42,14 @@ func New(algorithmName string, comparer crypt.BidirectionalComparer) *cobra.Comm
 				return fmt.Errorf("password and hash do not match")
 			}
 
-			fmt.Println("Matched!")
+			fmt.Println("Matched!") //nolint:forbidigo
+
 			return nil
 		},
 	}
 
 	cmd.Flags().BoolP(flagQuiet, "q", false, "Do not write to stdout")
+
 	return cmd
 }
 
@@ -69,20 +72,25 @@ func readStdin() (string, error) {
 	// data is piped
 	if (stat.Mode() & os.ModeCharDevice) == 0 {
 		var stdin []byte
+
 		scanner := bufio.NewScanner(os.Stdin)
 		for scanner.Scan() {
 			stdin = append(stdin, scanner.Bytes()...)
 		}
+
 		if err := scanner.Err(); err != nil {
 			return "", err
 		}
+
 		return string(stdin), nil
 	}
 
-	fmt.Println("Password: ")
+	fmt.Println("Password: ") //nolint:forbidigo
+
 	pwd, err := term.ReadPassword(syscall.Stdin)
 	if err != nil {
 		return "", err
 	}
+
 	return string(pwd), nil
 }

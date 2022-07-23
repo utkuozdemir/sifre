@@ -2,12 +2,13 @@ package bcryptcmd
 
 import (
 	"github.com/spf13/cobra"
+
 	"github.com/utkuozdemir/sifre/internal/comparecmd"
 	"github.com/utkuozdemir/sifre/internal/crypt"
 )
 
 func Build() (*cobra.Command, error) {
-	cmd := &cobra.Command{
+	cmd := &cobra.Command{ //nolint:exhaustruct
 		Use:   "bcrypt",
 		Short: "Bcrypt related commands",
 	}
@@ -20,5 +21,6 @@ func Build() (*cobra.Command, error) {
 	cmd.AddCommand(buildCostCmd())
 	cmd.AddCommand(buildGenerateCmd())
 	cmd.AddCommand(comparecmd.New("bcrypt", comparer))
+
 	return cmd, nil
 }

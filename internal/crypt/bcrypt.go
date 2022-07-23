@@ -7,26 +7,26 @@ import (
 	bc "golang.org/x/crypto/bcrypt"
 )
 
-type bcryptGenerator struct {
+type BcryptGenerator struct {
 	cost int
 }
 
-type bcryptComparer struct{}
+type BcryptComparer struct{}
 
-func NewBcryptGenerator(cost int) (Generator, error) {
+func NewBcryptGenerator(cost int) (*BcryptGenerator, error) {
 	if cost < bc.MinCost || cost > bc.MaxCost {
-		return nil, fmt.Errorf("invalid clist: %d, must be between %d and %d",
+		return nil, fmt.Errorf("invalid cost: %d, must be between %d and %d",
 			cost, bc.MinCost, bc.MaxCost)
 	}
 
-	return &bcryptGenerator{cost: cost}, nil
+	return &BcryptGenerator{cost: cost}, nil
 }
 
-func NewBcryptComparer() (BidirectionalComparer, error) {
-	return &bcryptComparer{}, nil
+func NewBcryptComparer() (*BcryptComparer, error) {
+	return &BcryptComparer{}, nil
 }
 
-func (b *bcryptGenerator) Generate(plaintext string) (string, error) {
+func (b *BcryptGenerator) Generate(plaintext string) (string, error) {
 	password, err := bc.GenerateFromPassword([]byte(plaintext), b.cost)
 	if err != nil {
 		return "", err
@@ -35,7 +35,7 @@ func (b *bcryptGenerator) Generate(plaintext string) (string, error) {
 	return string(password), nil
 }
 
-func (b *bcryptComparer) Compare(plaintext, hashed string) (bool, error) {
+func (b *BcryptComparer) Compare(plaintext, hashed string) (bool, error) {
 	err := bc.CompareHashAndPassword([]byte(hashed), []byte(plaintext))
 	if err == nil {
 		return true, nil
@@ -48,6 +48,6 @@ func (b *bcryptComparer) Compare(plaintext, hashed string) (bool, error) {
 	return false, err
 }
 
-func (b *bcryptComparer) CompareBidirectional(plaintext, hashed string) (bool, error) {
-	return compareBidirectional(plaintext, hashed, b.Compare)
+func (b *BcryptComparer) CompareBidirectional(plaintext, hashed string) (bool, error) {
+	return CompareBidirectional(plaintext, hashed, b.Compare)
 }
