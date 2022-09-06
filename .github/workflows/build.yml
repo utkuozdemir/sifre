@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-go@v3.3.0
         with:
           # renovate: go
-          go-version: 1.18.5
+          go-version: 1.19.1
       - name: Install richgo
         # renovate: depName=kyoh86/richgo
         run: go install github.com/kyoh86/richgo@v0.3.10
