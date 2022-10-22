@@ -43,7 +43,7 @@ jobs:
         uses: golangci/golangci-lint-action@v3.3.0
         with:
           # renovate: depName=golangci/golangci-lint datasource=github-releases
-          version: v1.50.0
+          version: v1.50.1
           skip-go-installation: true
           args: --timeout=3m0s
 
