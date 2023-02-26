@@ -34,7 +34,7 @@ jobs:
           go-version: 1.20.1
       - name: Install richgo
         # renovate: depName=kyoh86/richgo
-        run: go install github.com/kyoh86/richgo@v0.3.11
+        run: go install github.com/kyoh86/richgo@v0.3.12
       - name: Ensure go.mod is already tidied
         run: go mod tidy && git diff --no-patch --exit-code
       - name: Ensure code is properly formatted using gofumpt
