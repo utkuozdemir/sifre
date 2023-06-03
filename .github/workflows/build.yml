@@ -40,10 +40,10 @@ jobs:
       - name: Ensure code is properly formatted using gofumpt
         run: test -z "$(gofumpt -s -d .)"
       - name: Run linters
-        uses: golangci/golangci-lint-action@v3.4.0
+        uses: golangci/golangci-lint-action@v3.5.0
         with:
           # renovate: depName=golangci/golangci-lint datasource=github-releases
-          version: v1.52.2
+          version: v1.53.2
           skip-go-installation: true
           args: --timeout=3m0s
 
