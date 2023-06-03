@@ -44,7 +44,6 @@ jobs:
         with:
           # renovate: depName=golangci/golangci-lint datasource=github-releases
           version: v1.53.2
-          skip-go-installation: true
           args: --timeout=3m0s
 
       - name: Run tests
