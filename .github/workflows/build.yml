@@ -23,12 +23,12 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v7.0.1
       - name: Install Go
-        uses: actions/setup-go@v5.0.0
+        uses: actions/setup-go@v7.0.0
         with:
           # renovate: go
           go-version: 1.20.4
@@ -40,10 +40,10 @@ jobs:
       - name: Ensure code is properly formatted using gofumpt
         run: test -z "$(gofumpt -s -d .)"
       - name: Run linters
-        uses: golangci/golangci-lint-action@v6.0.0
+        uses: golangci/golangci-lint-action@v9.3.0
         with:
           # renovate: depName=golangci/golangci-lint datasource=github-releases
-          version: v1.52.2
+          version: v2.13.2
           skip-go-installation: true
           args: --timeout=3m0s
 
@@ -53,15 +53,15 @@ jobs:
           PVMIG_TEST_EXTRA_KUBECONFIG: /home/runner/.kube/kind-2.yaml
         run: richgo test -race -coverpkg=./... -coverprofile=coverage.txt -covermode=atomic -timeout 20m -v ./...
       - name: Send coverage
-        uses: codecov/codecov-action@v4.0.0
+        uses: codecov/codecov-action@v7.0.0
         with:
           files: coverage.txt
 
 
       - name: Build with Goreleaser
         if: ${{ always() }}
-        uses: goreleaser/goreleaser-action@v5.0.0
+        uses: goreleaser/goreleaser-action@v7.2.3
         with:
           # renovate: depName=goreleaser/goreleaser datasource=github-releases
-          version: v1.18.2
+          version: v2.18.0
           args: build --snapshot --rm-dist --single-target
